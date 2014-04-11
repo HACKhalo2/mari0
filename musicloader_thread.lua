@@ -1,4 +1,4 @@
-local this = love.thread.getThread()
+--local this = love.thread.getThread()
 
 require("love.filesystem")
 require("love.sound")
@@ -41,11 +41,14 @@ local function loadmusic()
     local filename = getfilename(name)
     if filename then
       local source = love.audio.newSource(love.sound.newDecoder(filename, 512 * 1024), "static")
-      --print("thread loaded music", name)
-      this:set(name, source)
+      print("thread loaded music", name)
+      --this:set(name, source)
+      love.thread.getChannel(name):push(source)
     end
   end
 end
+
+
 
 while true do
   getmusiclist()

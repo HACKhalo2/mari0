@@ -126,7 +126,7 @@ function menu_update(dt)
 
     if optionsselection > 3 and optionsselection < 13 then
       local colornumber = math.floor((optionsselection-1)/3)
-      local colorRGB = math.mod(optionsselection-4, 3)+1
+      local colorRGB = math.fmod(optionsselection-4, 3)+1
 
       if love.keyboard.isDown("right") and mariocolors[skinningplayer][colornumber][colorRGB] < 255 then
         mariocolors[skinningplayer][colornumber][colorRGB] = mariocolors[skinningplayer][colornumber][colorRGB] + RGBchangespeed*dt
@@ -806,7 +806,7 @@ function menu_draw()
       --WHITE BACKGROUND FOR RGB BARS
 
       if optionsselection > 3 and optionsselection < 13 then
-        love.graphics.rectangle("fill", 69*scale, 89*scale + math.mod(optionsselection-4, 3)*10*scale + math.floor((optionsselection-4)/3)*14*scale, 142*scale, 10*scale)
+        love.graphics.rectangle("fill", 69*scale, 89*scale + math.fmod(optionsselection-4, 3)*10*scale + math.floor((optionsselection-4)/3)*14*scale, 142*scale, 10*scale)
       end
 
       if math.floor((optionsselection-1)/3) == 1 then
@@ -1262,7 +1262,7 @@ end
 
 function loadmappacks()
   mappacktype = "local"
-  mappacklist = love.filesystem.enumerate( "mappacks" )
+  mappacklist = love.filesystem.getDirectoryItems( "mappacks" )
 
   local delete = {}
   for i = 1, #mappacklist do
@@ -1344,7 +1344,7 @@ end
 function loadonlinemappacks()
   mappacktype = "online"
   downloadmappacks()
-  onlinemappacklist = love.filesystem.enumerate( "mappacks" )
+  onlinemappacklist = love.filesystem.getDirectoryItems( "mappacks" )
 
   local delete = {}
   for i = 1, #onlinemappacklist do
@@ -1481,6 +1481,7 @@ function downloadmappacks()
       local onlinedata, code = http.request("http://server.stabyourself.net/mari0/index2.php?mode=getmap&get=" .. maplist[i])
 
       if code == 200 then
+        print("Connected to mappack server. Getting mappacks...")
         filecount = 0
         local checksums = {}
 
@@ -1525,6 +1526,7 @@ function downloadmappacks()
           love.filesystem.write( "mappacks/" .. maplist[i] .. "/version.txt", versionlist[i])
         end
       else
+        print("Could not connect to the mappack server!")
         success = false
       end
     end
@@ -1532,7 +1534,7 @@ function downloadmappacks()
     --Delete stuff and stuff.
     if not success then
       if love.filesystem.exists("mappacks/" .. maplist[i] .. "/") then
-        local list = love.filesystem.enumerate("mappacks/" .. maplist[i] .. "/")
+        local list = love.filesystem.getDirectoryItems("mappacks/" .. maplist[i] .. "/")
         for j = 1, #list do
           love.filesystem.remove("mappacks/" .. maplist[i] .. "/" .. list[j])
         end
@@ -2158,7 +2160,7 @@ function delete_mappack(pack)
     return false
   end
 
-  local list = love.filesystem.enumerate("mappacks/" .. pack .. "/")
+  local list = love.filesystem.getDirectoryItems("mappacks/" .. pack .. "/")
   for i = 1, #list do
     love.filesystem.remove("mappacks/" .. pack .. "/" .. list[i])
   end

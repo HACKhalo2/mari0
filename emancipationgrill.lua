@@ -21,7 +21,7 @@ function emancipationgrill:init(x, y, dir)
   self.particles.i = {}
   self.particles.dir = {}
   self.particles.speed = {}
-  self.particles.mod = {}
+  self.particles.fmod = {}
 
   self.involvedtiles = {}
 
@@ -68,7 +68,7 @@ function emancipationgrill:init(x, y, dir)
     else
       table.insert(self.particles.dir, -1)
     end
-    table.insert(self.particles.mod, math.random(4)-2)
+    table.insert(self.particles.fmod, math.random(4)-2)
   end
 end
 
@@ -87,7 +87,7 @@ function emancipationgrill:update(dt)
       else
         self.particles.dir[i] = -1
       end
-      self.particles.mod[i] = math.random(4)-2
+      self.particles.fmod[i] = math.random(4)-2
     end
   end
 end
@@ -104,7 +104,7 @@ function emancipationgrill:draw()
       love.graphics.setColor(255, 255, 255)
 
       for i, v in pairs(self.particles.i) do
-        local y = ((self.y-1)*16-self.particles.mod[i])*scale
+        local y = ((self.y-1)*16-self.particles.fmod[i])*scale
         if self.particles.dir[i] == 1 then
           local x = parstartleft+self.range*v
           love.graphics.draw(emanceparticleimg, math.floor(x), y, math.pi/2, scale, scale)
@@ -129,7 +129,7 @@ function emancipationgrill:draw()
       love.graphics.setColor(255, 255, 255)
 
       for i, v in pairs(self.particles.i) do
-        local x = ((self.x-1-xscroll)*16-self.particles.mod[i]+9)*scale
+        local x = ((self.x-1-xscroll)*16-self.particles.fmod[i]+9)*scale
         if self.particles.dir[i] == 1 then
           local y = parstartup+self.range*v
           love.graphics.draw(emanceparticleimg, math.floor(x), y, math.pi, scale, scale)

@@ -14,18 +14,20 @@ function music:init()
 end
 
 function music:load(musicfile) -- can take a single file string or an array of file strings
+  print("loading music ...")
   if type(musicfile) == "table" then
     for i,v in ipairs(musicfile) do
       self:preload(v)
     end
-else
-  self:preload(musicfile)
-end
-self.stringlist = table.concat(self.toload, ";")
-love.thread.getChannel("musiclist"):push(self.stringlist)
+  else
+    self:preload(musicfile)
+  end
+  self.stringlist = table.concat(self.toload, ";")
+  love.thread.getChannel("musiclist"):push(self.stringlist)
 end
 
 function music:preload(musicfile)
+  print("Preloading music ...")
   if self.loaded[musicfile] == nil then
     self.loaded[musicfile] = false
     table.insert(self.toload, musicfile)
@@ -34,8 +36,10 @@ end
 
 function music:play(name)
   if name and soundenabled then
+    print("Playing music " .. name)
     if self.loaded[name] == false then
-      local source = self.thread:demand(name)
+      --local source = self.thread:demand(name)
+      local source = love.thread.getChannel(name):demand()
       self:onLoad(name, source)
     end
     if self.loaded[name] then
@@ -72,7 +76,7 @@ function music:update()
       source:setPitch(self.pitch)
     end
   end
-  local err = love.thread.getChannel("error"):pop()
+  local err = self.thread:getError() 
   if err then print(err) end
 end
 

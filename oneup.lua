@@ -38,7 +38,7 @@ end
 
 function oneup:update(dt)
   --rotate back to 0 (portals)
-  self.rotation = math.mod(self.rotation, math.pi*2)
+  self.rotation = math.fmod(self.rotation, math.pi*2)
   if self.rotation > 0 then
     self.rotation = self.rotation - portalrotationalignmentspeed*dt
     if self.rotation < 0 then
@@ -79,7 +79,7 @@ end
 function oneup:draw()
   if self.drawable == false then
     --Draw it coming out of the block.
-    love.graphics.drawq(entitiesimg, entityquads[3].quad, math.floor(((self.x-xscroll)*16+self.offsetX)*scale), math.floor((self.y*16-self.offsetY)*scale), 0, scale, scale, self.quadcenterX, self.quadcenterY)
+    love.graphics.draw(entitiesimg, entityquads[3].quad, math.floor(((self.x-xscroll)*16+self.offsetX)*scale), math.floor((self.y*16-self.offsetY)*scale), 0, scale, scale, self.quadcenterX, self.quadcenterY)
   end
 end
 
