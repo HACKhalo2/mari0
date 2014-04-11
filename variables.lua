@@ -1,4 +1,4 @@
---SETABLE VARS--	
+--SETABLE VARS--
 --almost all vars are in "blocks", "blocks per second" or just "seconds". Should be obvious enough what's what.
 portalgundelay = 0.2
 gellifetime = 2
@@ -25,15 +25,15 @@ koopacombo = {500, 800, 1000, 2000, 4000, 5000, 8000} --combo scores for series 
 
 --star scores are identical so I'm just gonn be lazy
 firepoints = {	goomba = 100,
-				koopa = 200,
-				plant = 200,
-				bowser = 5000,
-				squid = 200,
-				cheep = 200,
-				flyingfish = 200,
-				hammerbro = 1000,
-				lakito = 200,
-				bulletbill = 200}
+  koopa = 200,
+  plant = 200,
+  bowser = 5000,
+  squid = 200,
+  cheep = 200,
+  flyingfish = 200,
+  hammerbro = 1000,
+  lakito = 200,
+  bulletbill = 200}
 
 yacceleration = 80 --gravity
 yaccelerationjumping = 30 --gravity while jumping (Only for mario)

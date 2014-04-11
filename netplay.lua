@@ -18,23 +18,23 @@ CLIENT = false
 netplay = false
 
 function netplay_update(dt)
-	if SERVER then
-		server_update(dt)
-	elseif CLIENT then
-		client_update(dt)
-	end
+  if SERVER then
+    server_update(dt)
+  elseif CLIENT then
+    client_update(dt)
+  end
 end
 
 function deserialize(str)
-	output = str:split("~")
-	return output
+  output = str:split("~")
+  return output
 end
 
 function serialize(str1,str2)
-	return str1.."~"..str2
+  return str1.."~"..str2
 end
 
 function message(s)
-	print(os.date("%X", os.time()) .. " " .. s)
-	table.insert(messages, os.date("%X", os.time()) .. " " .. s)
+  print(os.date("%X", os.time()) .. " " .. s)
+  table.insert(messages, os.date("%X", os.time()) .. " " .. s)
 end

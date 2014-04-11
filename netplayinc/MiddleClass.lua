@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------------------
 -- MiddleClass.lua
--- Enrique García ( enrique.garcia.cota [AT] gmail [DOT] com ) - 19 Oct 2009
--- Based on YaciCode, from Julien Patte and LuaObject, from Sébastien Rocca-Serra
+-- Enrique Garcï¿½a ( enrique.garcia.cota [AT] gmail [DOT] com ) - 19 Oct 2009
+-- Based on YaciCode, from Julien Patte and LuaObject, from Sï¿½bastien Rocca-Serra
 -----------------------------------------------------------------------------------
 
 local _classes = setmetatable({}, {__mode = "k"})   -- weak table storing references to all declared _classes
@@ -11,7 +11,7 @@ Object = { name = "Object" }
 
 _classes[Object]=Object -- adds Object to the list of _classes
 
-  -- creates a new instance
+-- creates a new instance
 Object.new = function(theClass, ...)
   assert(_classes[theClass]~=nil, "Use class:new instead of class.new")
 
@@ -37,19 +37,19 @@ Object.subclass = function(theClass, name)
 
   setmetatable(theSubclass, {   -- theSubclass' metamethods
     __index = function(_,methodName)
-        local localMethod = classDict[methodName] -- this allows using classDic as a class method AND instance method dict
-        if localMethod ~= nil then return localMethod end
-        return theClass[methodName]
-      end,
+      local localMethod = classDict[methodName] -- this allows using classDic as a class method AND instance method dict
+      if localMethod ~= nil then return localMethod end
+      return theClass[methodName]
+    end,
     -- FIXME add support for __index method here
     __newindex = function(_, methodName, method) -- when adding new methods, include a "super" function
-        if type(method) == 'function' then
-          local fenv = getfenv(method)
-          local newenv = setmetatable( {super = theClass.__classDict},  {__index = fenv, __newindex = fenv} )
-          setfenv( method, newenv )
-        end
-        rawset(classDict, methodName, method)
-      end,
+      if type(method) == 'function' then
+        local fenv = getfenv(method)
+        local newenv = setmetatable( {super = theClass.__classDict},  {__index = fenv, __newindex = fenv} )
+        setfenv( method, newenv )
+    end
+    rawset(classDict, methodName, method)
+    end,
     __tostring = function() return ("class ".. name) end,
     __call = function(_, ...) return theSubclass:new(...) end
   })
@@ -88,7 +88,7 @@ setmetatable(Object, { __index = Object.__classDict, __newindex = Object.__class
 function Object.getterFor(theClass, attr) return 'get' .. attr:gsub("^%l", string.upper) end
 function Object.setterFor(theClass, attr) return 'set' .. attr:gsub("^%l", string.upper) end
 function Object.getter(theClass, attributeName, defaultValue)
-  theClass[theClass:getterFor(attributeName)] = function(self) 
+  theClass[theClass:getterFor(attributeName)] = function(self)
     if(self[attributeName]~=nil) then return self[attributeName] end
     return defaultValue
   end
